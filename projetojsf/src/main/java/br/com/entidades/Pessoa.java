@@ -22,8 +22,20 @@ public class Pessoa implements Serializable {
 	private String sobrenome;
 	private int idade;
 	private Date dataNascimento;
+	private String sexo;
 	
-	
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public Pessoa() {
 		
 	}

@@ -11,61 +11,90 @@
 
 <h:body>
 	
-	
-				<h1>Olá JSF</h1>
-	
 			<h:form id="formPessoa">
 			
+				
+				<h:graphicImage heigth="90" width="90" library="img" name="paisagem.jpg" />
+				
+				
+			<h1>Olá JSF</h1>
+			<h:panelGrid columns="2">
+			<f:facet name="header">
+				<h:outputText value="Cadastro em JSF"/>
+			</f:facet>
 			<h:outputLabel value="Id:"/>
 			<h:inputText value="#{PessoaBean.pessoa.id}" readonly="true"/>
-			<br/>
 			
 			<h:outputLabel value="Nome:"/>
 			<h:inputText value="#{PessoaBean.pessoa.nome}"/>
-			<br/>
 			
 			<h:outputLabel value="Sobreome:"/>
 			<h:inputText value="#{PessoaBean.pessoa.sobrenome}"/>
-			<br/>
+	
 			
 			<h:outputLabel value="Idade:"/>
 			<h:inputText value="#{PessoaBean.pessoa.idade}"/>
-			<br/>
 			
-		
+			<h:outputText value="sexo"/>
+			<h:selectOneMenu id ="campoSexo" value="#{PessoaBean.pessoa.sexo}" required="true">
+			
+			<f:selectItem itemValue="NAO" itemLabel="[-Selecione-]" noSelectionOption="true"></f:selectItem>
+			<f:selectItem itemValue="MASCULINO" itemLabel="Masculino"></f:selectItem>
+			<f:selectItem itemValue="FEMININO" itemLabel="Feminino"></f:selectItem>
+			
+			
+			</h:selectOneMenu>
+	
+			<h:outputLabel/>
+			<h:panelGroup>
 			<h:commandButton value="Novo" action="#{PessoaBean.novo}"/>
 			<h:commandButton value="Salvar" action="#{PessoaBean.salvar}"/>
 			<h:commandButton value="Remover" action="#{PessoaBean.remove}"/>
+			</h:panelGroup>
 			
-			<h:dataTable value="#{PessoaBean.pessoas}" var="pessoa">
+				</h:panelGrid>
+				
+			<h:dataTable value="#{PessoaBean.pessoas}" var="pessoa" border="3" cellpadding="3">
+			
+			<f:facet name="header">
+				Lista de Pessoas Cadastradas
+			</f:facet>
+			
 				<h:column>
+				<f:facet name="header">ID</f:facet>
 					<h:outputText value="#{pessoa.id}"/>
 				</h:column>
 				
 				<h:column>
+				<f:facet name="header">Nome</f:facet>
 					<h:outputText value="#{pessoa.nome}"/>
 				</h:column>
 				
 				<h:column>
+				<f:facet name="header">Sobrenome</f:facet>
 					<h:outputText value="#{pessoa.sobrenome}"/>
 				</h:column>
 				
 				<h:column>
+				<f:facet name="header">Idade</f:facet>
 					<h:outputText value="#{pessoa.idade}"/>
 				</h:column>
 				
 				<h:column>
+				<f:facet name="header">Editar</f:facet>
 					<h:commandLink value="Editar">
 					<f:setPropertyActionListener value="#{pessoa}" target="#{PessoaBean.pessoa}"/>
 					</h:commandLink>
-				</h:column>
-				
-				
-				<h:column>
+					</h:column>
+					
+					<h:column>
+					<f:facet name="header">Excluir</f:facet>
 					<h:commandLink value="Excluir" action="#{PessoaBean.remove}">
 					<f:setPropertyActionListener value="#{pessoa}" target="#{PessoaBean.pessoa}"/>
 					</h:commandLink>
 				</h:column>
+				
+				
 			
 			</h:dataTable>
 		
