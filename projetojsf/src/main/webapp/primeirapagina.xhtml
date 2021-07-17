@@ -13,15 +13,13 @@
 	
 			<h:form id="formPessoa">
 			
-				
-				<h:graphicImage heigth="90" width="90" library="img" name="paisagem.jpg" />
-				
-				
 			<h1>Olá JSF</h1>
 			<h:panelGrid columns="2">
 			<f:facet name="header">
-				<h:outputText value="Cadastro em JSF"/>
+				<h:outputText value="Cadastro de Usuário"/>
 			</f:facet>
+			
+			
 			<h:outputLabel value="Id:"/>
 			<h:inputText value="#{PessoaBean.pessoa.id}" readonly="true"/>
 			
@@ -38,18 +36,50 @@
 			<h:outputText value="sexo"/>
 			<h:selectOneMenu id ="campoSexo" value="#{PessoaBean.pessoa.sexo}" required="true">
 			
-			<f:selectItem itemValue="NAO" itemLabel="[-Selecione-]" noSelectionOption="true"></f:selectItem>
-			<f:selectItem itemValue="MASCULINO" itemLabel="Masculino"></f:selectItem>
-			<f:selectItem itemValue="FEMININO" itemLabel="Feminino"></f:selectItem>
-			
+			<f:selectItem itemValue="NAO" itemLabel="[-Selecione-]" noSelectionOption="false"/>
+			<f:selectItem itemValue="MASCULINO" itemLabel="Masculino"/>
+			<f:selectItem itemValue="FEMININO" itemLabel="Feminino"/>
 			
 			</h:selectOneMenu>
+			
+			<h:outputLabel value="Frameworks:"/>
+			<h:selectManyMenu id ="campoframeworks" value="#{PessoaBean.pessoa.frameworks}"  style="height:150px;">
+			<f:selectItem itemValue="Hibernate"/>
+			<f:selectItem itemValue="Spring MVC" />
+			<f:selectItem itemValue="JPA" />
+			<f:selectItem itemValue="PrimeFaces" />
+			<f:selectItem itemValue="JSF" />
+			</h:selectManyMenu>
+			
+			<h:outputLabel value="Ativo:"/>
+			<h:selectBooleanCheckbox  value="#{PessoaBean.pessoa.ativo}" >
+			
+			</h:selectBooleanCheckbox>
+			
+			<h:outputLabel value="Login:"/>
+			<h:inputText value="#{PessoaBean.pessoa.login}"/>
+			
+			<h:outputLabel value="Senha:"/>
+			<h:inputSecret value="#{PessoaBean.pessoa.senha}"/>
+			
+			<h:outputLabel value="Perfil"/>
+			<h:selectOneMenu id ="perfil" value="#{PessoaBean.pessoa.perfilUser}" required="true">
+			
+			<f:selectItem itemValue="NAO" itemLabel="[-Selecione-]" noSelectionOption="false"/>
+			<f:selectItem itemValue="ADMINISTRADOR" itemLabel="Administrador"/>
+			<f:selectItem itemValue="SECRETARIO" itemLabel="Secretário"/>
+			<f:selectItem itemValue="RECEPCIONISTA" itemLabel="Recepcionista"/>
+			
+			</h:selectOneMenu>
+			
+			
 	
 			<h:outputLabel/>
 			<h:panelGroup>
-			<h:commandButton value="Novo" action="#{PessoaBean.novo}"/>
-			<h:commandButton value="Salvar" action="#{PessoaBean.salvar}"/>
-			<h:commandButton value="Remover" action="#{PessoaBean.remove}"/>
+			<h:commandButton value="Novo" action="#{PessoaBean.novo}" image="resources/img/new_add_user_16734.png" title="Novo"/>
+			<h:commandButton value="Salvar" action="#{PessoaBean.salvar}" image="resources/img/salvar.png" title="Salvar"/>
+			<h:commandButton value="Remover" action="#{PessoaBean.remove}" image="resources/img/remover.png" title="Remover"/>
+			<h:commandButton value="Limpar" type="reset" image="resources/img/limpar.png" title="Limpar"/>
 			</h:panelGroup>
 			
 				</h:panelGrid>
@@ -57,7 +87,7 @@
 			<h:dataTable value="#{PessoaBean.pessoas}" var="pessoa" border="3" cellpadding="3">
 			
 			<f:facet name="header">
-				Lista de Pessoas Cadastradas
+				Lista de Usuários Cadastrados
 			</f:facet>
 			
 				<h:column>
@@ -81,16 +111,18 @@
 				</h:column>
 				
 				<h:column>
-				<f:facet name="header">Editar</f:facet>
-					<h:commandLink value="Editar">
+					<f:facet name="header">Alterar</f:facet>
+					<h:commandLink >
 					<f:setPropertyActionListener value="#{pessoa}" target="#{PessoaBean.pessoa}"/>
+					<h:graphicImage value="resources/img/alterar.png" title="Editar"/>
 					</h:commandLink>
 					</h:column>
 					
 					<h:column>
 					<f:facet name="header">Excluir</f:facet>
-					<h:commandLink value="Excluir" action="#{PessoaBean.remove}">
+					<h:commandLink action="#{PessoaBean.remove}">
 					<f:setPropertyActionListener value="#{pessoa}" target="#{PessoaBean.pessoa}"/>
+					<h:graphicImage value="resources/img/deletar.png" title="Excluir"/>
 					</h:commandLink>
 				</h:column>
 				
