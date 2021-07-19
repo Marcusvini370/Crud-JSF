@@ -2,20 +2,21 @@ package br.com.filter;
 
 import java.io.IOException;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import br.com.entidades.Pessoa;
 import br.com.jpautil.JPAUtil;
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
-
-@WebFilter(urlPatterns = {"/*"})
+@WebFilter(urlPatterns={"/*"})
 public class filterAutenticacao implements Filter {
 
 	@Override
@@ -29,26 +30,24 @@ public class filterAutenticacao implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
 		
-		String usuarioLogado = (String) session.getAttribute("usuarioLogado");
+        Pessoa usuarioLogado = (Pessoa) session.getAttribute("usuarioLogado");
 		
 		String url = req.getServletPath();
 		
-		if (!url.equalsIgnoreCase("index.jsf") && usuarioLogado == null ||
-			(usuarioLogado != null && usuarioLogado.trim().isEmpty())){
+		if (!url.equalsIgnoreCase("index.jsf") && usuarioLogado == null){
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsf");
 			dispatcher.forward(request, response);
 			return;
 		}else {
 			// executa as ações do request e do response
-			chain.doFilter(req, response);
+			chain.doFilter(request, response);
 		}
 		
 	}
-	
+
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
+	public void init(FilterConfig arg0) throws ServletException {
 		JPAUtil.getEntityManager();
 	}
-
 
 }

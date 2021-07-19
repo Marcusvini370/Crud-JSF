@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -21,8 +23,13 @@ public class Pessoa implements Serializable {
 	private String nome;
 	private String sobrenome;
 	private int idade;
-	private Date dataNascimento;
+	
+	@Temporal(TemporalType.DATE)
+	private Date dataNascimento = new Date();
+	
 	private String sexo;
+	private String nivelProgramador;
+	private int[] linguagens;
 	
 	private String[] frameworks;
 	private Boolean ativo;
@@ -30,11 +37,36 @@ public class Pessoa implements Serializable {
 	private String login;
 	private String senha;
 	
-	
 	private String perfilUser;
 	
+	private String cpf;
 	
+
 	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public int[] getLinguagens() {
+		return linguagens;
+	}
+
+	public void setLinguagens(int[] linguagens) {
+		this.linguagens = linguagens;
+	}
+
+	public String getNivelProgramador() {
+		return nivelProgramador;
+	}
+
+	public void setNivelProgramador(String nivelProgramador) {
+		this.nivelProgramador = nivelProgramador;
+	}
+
 	public String getPerfilUser() {
 		return perfilUser;
 	}
