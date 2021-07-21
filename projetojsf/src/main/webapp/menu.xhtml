@@ -6,7 +6,7 @@ xmlns:h="http://java.sun.com/jsf/html">
 				<h:form  style="margin-left:40%;">
 				<h:commandLink  value="Administração" action="primeirapagina" rendered="#{PessoaBean.permiteAcesso('ADMINISTRADOR')}"/>
 				<h:commandLink style="margin-left:1cm;" value="Lançamentos" action="lancamento"/>
-				<h:commandLink style="margin-left:1cm;" value="Trocar Usuário" action="index"/>
+				<h:commandLink style="margin-left:1cm;" value="Trocar Usuário" action="#{PessoaBean.deslogar}"/>
 				</h:form>
 	
 </html>			

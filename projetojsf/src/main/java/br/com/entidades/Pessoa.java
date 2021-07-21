@@ -4,12 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -41,8 +47,129 @@ public class Pessoa implements Serializable {
 	
 	private String cpf;
 	
-
+	private String cep;
+	private String logradouro;
+	private String complemento;
+	private String localidade;
+	private String bairro;
+	private String uf;
+	private String ibge;
 	
+	@ManyToOne
+	private Cidades cidades;
+	
+	@Transient /* Não fica persistente ou não grava no banco*/
+	private Estados estados;
+	
+	
+	@Column(columnDefinition="text") /*Tipo text grava arquivos em base 64 */
+	private String fotoIconBase64;
+	
+	private String extensao;
+	
+	@Lob /* Grava arquivos no banco de dados */
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] fotoIconBaase64Original;
+	
+	
+	
+	public String getFotoIconBase64() {
+		return fotoIconBase64;
+	}
+
+	public void setFotoIconBase64(String fotoIconBase64) {
+		this.fotoIconBase64 = fotoIconBase64;
+	}
+
+	public String getExtensao() {
+		return extensao;
+	}
+
+	public void setExtensao(String extensao) {
+		this.extensao = extensao;
+	}
+
+	public byte[] getFotoIconBaase64Original() {
+		return fotoIconBaase64Original;
+	}
+
+	public void setFotoIconBaase64Original(byte[] fotoIconBaase64Original) {
+		this.fotoIconBaase64Original = fotoIconBaase64Original;
+	}
+
+	public Cidades getCidades() {
+		return cidades;
+	}
+
+	public void setCidades(Cidades cidades) {
+		this.cidades = cidades;
+	}
+
+	public void setEstados(Estados estados) {
+		this.estados = estados;
+	}
+	
+	public Estados getEstados() {
+		return estados;
+	}
+	
+	public String getLocalidade() {
+		return localidade;
+	}
+
+	public void setLocalidade(String localidade) {
+		this.localidade = localidade;
+	}
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+
+	public String getIbge() {
+		return ibge;
+	}
+
+	public void setIbge(String ibge) {
+		this.ibge = ibge;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
 	public String getCpf() {
 		return cpf;
 	}
@@ -115,9 +242,6 @@ public class Pessoa implements Serializable {
 		this.sexo = sexo;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 	public Pessoa() {
 		

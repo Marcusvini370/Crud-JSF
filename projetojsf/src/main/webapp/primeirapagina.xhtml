@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:ui="http://java.sun.com/jsf/facelets">
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
 
 		<title>Olá JSF</title>
@@ -14,7 +15,7 @@
 			<ui:include src="menu.xhtml"/>
 				
 	
-			<h:form id="formPessoa" style="margin-left:40%;" rendered="#{PessoaBean.permiteAcesso('ADMINISTRADOR')}">
+			<h:form id="formPessoa" enctype="multipart/form-data" style="margin-left:40%;" rendered="#{PessoaBean.permiteAcesso('ADMINISTRADOR')}">
 			<h:form >
 			
 			<h1 style="margin-left:11%;">Olá JSF</h1>
@@ -31,9 +32,12 @@
 			<h:outputLabel value="Id:"/>
 			<h:inputText value="#{PessoaBean.pessoa.id}" readonly="true"/>
 			
+			<h:outputLabel value="Foto:"/>
+			<h:inputFile id="foto" value="#{PessoaBean.arquivofoto}"></h:inputFile>
+			
 			<h:outputLabel value="Nome:"/>
 			<h:inputText value="#{PessoaBean.pessoa.nome}" required="false" requiredMessage="Informe nome do usuário!"
-			validatorMessage="Nome tem que ter no mínimo 4 letras">
+			validatorMessage="Nome tem que ter no mínimo 4 letras" pt:placeholder="Informe o nome do usuário">
 				<f:validateLength minimum="4" maximum="50"/>
 			</h:inputText>
 			<h:outputLabel value="Sobreome:"/>
@@ -44,7 +48,7 @@
 			<h:inputText value="#{PessoaBean.pessoa.idade}"/>
 			
 			<h:outputLabel value="CPF:"/>
-			<h:inputText value="#{PessoaBean.pessoa.cpf}"/>
+			<h:inputText value="#{PessoaBean.pessoa.cpf}" pt:placeholder="Informe um CPF válido"/>
 			
 			<h:outputText value="sexo"/>
 			<h:selectOneMenu id ="campoSexo" value="#{PessoaBean.pessoa.sexo}" required="true">
@@ -66,6 +70,33 @@
 			<f:selectItem itemValue="PrimeFaces" />
 			<f:selectItem itemValue="JSF" />
 			</h:selectManyMenu>
+			
+			<h:outputLabel value="CEP:" />
+			<h:inputText value="#{PessoaBean.pessoa.cep}" >
+			<f:ajax event="blur" execute="@this" 
+			listener="#{PessoaBean.pesquisaCep}"
+			render="logradouro complemento bairro localidade uf ibge "/>
+			</h:inputText>
+			
+			<h:outputLabel value="Logradouro:"/> 
+			<h:inputText value="#{PessoaBean.pessoa.logradouro}" id="logradouro"/>
+			
+			<h:outputLabel value="Complemento:"/> 
+			<h:inputText value="#{PessoaBean.pessoa.complemento}" id="complemento"/>
+			
+			<h:outputLabel value="Bairro:"/> 
+			<h:inputText value="#{PessoaBean.pessoa.bairro}" id="bairro"/>
+			
+			<h:outputLabel value="Localidade:"/> 
+			<h:inputText value="#{PessoaBean.pessoa.localidade}" id="localidade"/>
+			
+			<h:outputLabel value="UF:"/> 
+			<h:inputText value="#{PessoaBean.pessoa.uf}" id="uf"/>
+			
+			<h:outputLabel value="Ibge:"/> 
+			<h:inputText value="#{PessoaBean.pessoa.ibge}" id="ibge"/>
+			
+		
 			
 			<h:outputLabel value="Ativo:"/>
 			<h:selectBooleanCheckbox  value="#{PessoaBean.pessoa.ativo}" >
@@ -102,6 +133,21 @@
 				<f:selectItem itemValue="4" itemLabel="C#"/>
 				<f:selectItem itemValue="5" itemLabel="Cobol"/>
 			</h:selectManyCheckbox>
+			
+			<h:outputLabel value="Estados:"/>
+			<h:selectOneMenu value="#{PessoaBean.pessoa.estados}" immediate="true" id="comboEstados"
+			converter="estadoConverter" >
+				 <f:selectItem itemLabel="" noSelectionOption="true" /> 
+				<f:selectItems value="#{PessoaBean.estados}" />
+				<f:ajax event="change" execute="@this" listener="#{PessoaBean.carregaCidades}" render="comboCidade"/>
+			</h:selectOneMenu>
+			
+				<h:outputLabel value="Cidades:"/>
+				<h:selectOneMenu value="#{PessoaBean.pessoa.cidades}" id="comboCidade"
+				converter="cidadeConverter">
+					<f:selectItem  noSelectionOption="true" itemLabel="" />
+					<f:selectItems value="#{PessoaBean.cidades}"/>
+				</h:selectOneMenu>
 	
 			<h:outputLabel/>
 			<h:panelGroup>
@@ -146,8 +192,8 @@
 				</h:column>
 				
 				<h:column>
-					<f:facet name="header">Alterar</f:facet>
-					<h:commandLink >
+					<f:facet name="header">Editar</f:facet>
+					<h:commandLink action="#{PessoaBean.editar}">
 					<f:setPropertyActionListener value="#{pessoa}" target="#{PessoaBean.pessoa}"/>
 					<h:graphicImage value="resources/img/alterar.png" title="Editar"/>
 					</h:commandLink>
